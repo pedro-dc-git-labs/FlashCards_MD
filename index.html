@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Flashcards English Path</title>
+  <link rel="stylesheet" href="./public/stylesheets/style.css" />
+  <style>
+    body {
+      padding: 0;
+    }
+
+    .index-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 280px;
+      background: linear-gradient(180deg, rgba(122, 162, 255, 0.12) 0%, rgba(122, 162, 255, 0.06) 100%);
+      border-right: 1px solid rgba(122, 162, 255, 0.2);
+      padding: 28px 20px;
+      flex-shrink: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 16px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .category-btn {
+      width: 100%;
+      text-align: left;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      background: transparent;
+      border: 1px solid rgba(122, 162, 255, 0.2);
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .category-btn:hover {
+      background: rgba(122, 162, 255, 0.1);
+      border-color: rgba(122, 162, 255, 0.4);
+    }
+
+    .category-btn.active {
+      background: rgba(122, 162, 255, 0.25);
+      border-color: rgba(122, 162, 255, 0.6);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .category-icon {
+      font-size: 16px;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .category-name {
+      flex: 1;
+    }
+
+    .category-count {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 28px;
+      overflow-y: auto;
+    }
+
+    .content-header {
+      margin-bottom: 28px;
+    }
+
+    .content-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 6px 0;
+    }
+
+    .content-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .search-bar-container {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      align-items: center;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 10px 14px;
+      background: rgba(17, 26, 46, 0.6);
+      border: 1px solid rgba(122, 162, 255, 0.25);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .search-input::placeholder {
+      color: var(--muted);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: rgba(122, 162, 255, 0.5);
+      background: rgba(17, 26, 46, 0.8);
+    }
+
+    .filter-btn {
+      padding: 10px 14px;
+      background: rgba(122, 162, 255, 0.15);
+      border: 1px solid rgba(122, 162, 255, 0.3);
+      border-radius: 8px;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background 0.2s ease;
+    }
+
+    .filter-btn:hover {
+      background: rgba(122, 162, 255, 0.25);
+    }
+
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .item-card {
+      padding: 18px;
+      background: rgba(17, 26, 46, 0.5);
+      border: 1px solid rgba(122, 162, 255, 0.15);
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .item-card:hover {
+      background: rgba(17, 26, 46, 0.7);
+      border-color: rgba(122, 162, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .item-card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0 0 4px 0;
+    }
+
+    .item-card-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 14px 0;
+    }
+
+    .item-card-footer {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .practicar-btn {
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid rgba(122, 162, 255, 0.4);
+      border-radius: 6px;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .practicar-btn:hover {
+      background: rgba(122, 162, 255, 0.2);
+      border-color: rgba(122, 162, 255, 0.6);
+    }
+
+    .checkmark {
+      color: rgba(155, 231, 255, 0.8);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      .index-container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(122, 162, 255, 0.2);
+        padding: 16px;
+      }
+
+      .items-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .main-content {
+        padding: 16px;
+      }
+
+      .content-title {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="index-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <h3 class="sidebar-title">Categorías</h3>
+
+      <button class="category-btn active" data-category="verbos">
+        <span class="category-icon">📚</span>
+        <span class="category-name">Verbos y formas verbales</span>
+        <span class="category-count">(5)</span>
+      </button>
+
+      <button class="category-btn" data-category="fonetica">
+        <span class="category-icon">🔊</span>
+        <span class="category-name">Fonética</span>
+        <span class="category-count">(3)</span>
+      </button>
+
+      <button class="category-btn" data-category="articulos">
+        <span class="category-icon">🏷️</span>
+        <span class="category-name">Artículos</span>
+        <span class="category-count">(1)</span>
+      </button>
+
+      <button class="category-btn" data-category="adjetivos">
+        <span class="category-icon">✨</span>
+        <span class="category-name">Adjetivos</span>
+        <span class="category-count">(1)</span>
+      </button>
+
+      <button class="category-btn" data-category="adverbios">
+        <span class="category-icon">➡️</span>
+        <span class="category-name">Adverbios</span>
+        <span class="category-count">(5)</span>
+      </button>
+
+      <button class="category-btn" data-category="pronombres">
+        <span class="category-icon">👤</span>
+        <span class="category-name">Pronombres</span>
+        <span class="category-count">(7)</span>
+      </button>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <div class="content-header">
+        <h1 class="content-title" id="categoryTitle">Verbos y formas verbales</h1>
+        <p class="content-subtitle">Selecciona un subtema para practicar.</p>
+
+        <div class="search-bar-container">
+          <input
+            type="text"
+            class="search-input"
+            id="searchInput"
+            placeholder="Buscar flashcards..."
+          />
+          <button class="filter-btn">⚙️ Filtrar</button>
+        </div>
+      </div>
+
+      <div class="items-grid" id="itemsGrid">
+        <!-- Items will be populated by JavaScript -->
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const categories = {
+      verbos: {
+        title: 'Verbos y formas verbales',
+        items: [
+          { name: 'Present Simple', count: '20 flashcards', url: './views/flashcard1.html' },
+          { name: 'Present Continuous', count: '15 flashcards', url: './views/flashcard2.html' },
+          { name: 'Past Simple', count: '18 flashcards', url: './views/flashcard3.html' },
+          { name: 'Be Going To', count: '12 flashcards', url: './views/flashcard4.html' },
+          { name: 'Verbos Habituales', count: '25 flashcards', url: './views/flashcard5.html' }
+        ]
+      },
+      fonetica: {
+        title: 'Fonética',
+        items: [
+          { name: 'Fonética Vocales', count: '12 patrones', url: './views/flashcard6.html' },
+          { name: 'Fonética Consonantes', count: '24 consonantes', url: './views/flashcard7.html' },
+          { name: 'Fonética Diptongos', count: '8 diptongos', url: './views/flashcard8.html' }
+        ]
+      },
+      articulos: {
+        title: 'Artículos',
+        items: [
+          { name: 'Artículos 1', count: '5 reglas', url: './views/flashcard10.html' }
+        ]
+      },
+      adjetivos: {
+        title: 'Adjetivos',
+        items: [
+          { name: 'Adjetivos 1', count: '18 flashcards', url: './views/flashcard11.html' }
+        ]
+      },
+      adverbios: {
+        title: 'Adverbios',
+        items: [
+          { name: 'Adverbios de modo', count: '15 flashcards', url: './views/flashcard12.html' },
+          { name: 'Adverbios de tiempo', count: '11 flashcards', url: './views/flashcard13.html' },
+          { name: 'Adverbios de frecuencia', count: '8 flashcards', url: './views/flashcard14.html' },
+          { name: 'Adverbios de lugar', count: '12 flashcards', url: './views/flashcard15.html' },
+          { name: 'Adverbios de grado', count: '10 flashcards', url: './views/flashcard16.html' }
+        ]
+      },
+      pronombres: {
+        title: 'Pronombres',
+        items: [
+          { name: 'Pronombres Personales', count: '8 pronombres', url: './views/flashcard17.html' },
+          { name: 'Pronombres Posesivos', count: '5 tablas', url: './views/flashcard18.html' },
+          { name: 'Pronombres Reflexivos', count: '8 pronombres', url: './views/flashcard19.html' },
+          { name: 'Pronombres Demostrativos', count: '4 pronombres', url: './views/flashcard20.html' },
+          { name: 'Pronombres Interrogativos', count: '9 pronombres', url: './views/flashcard21.html' },
+          { name: 'Pronombres Indefinidos', count: '5 tablas', url: './views/flashcard22.html' },
+          { name: 'Pronombres Relativos', count: '4 tablas', url: './views/flashcard23.html' }
+        ]
+      }
+    };
+
+    function renderItems(categoryKey, searchTerm = '') {
+      const category = categories[categoryKey];
+      const itemsGrid = document.getElementById('itemsGrid');
+      const titleElement = document.getElementById('categoryTitle');
+
+      titleElement.textContent = category.title;
+
+      let filteredItems = category.items;
+      if (searchTerm) {
+        filteredItems = category.items.filter(item =>
+          item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+
+      itemsGrid.innerHTML = filteredItems
+        .map(
+          item => `
+        <div class="item-card">
+          <p class="item-card-title">${item.name}</p>
+          <p class="item-card-subtitle">${item.count}</p>
+          <div class="item-card-footer">
+            <a href="${item.url}" class="practicar-btn">Practicar</a>
+            <span class="checkmark">✓</span>
+          </div>
+        </div>
+      `
+        )
+        .join('');
+    }
+
+    // Category button click handler
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+
+        const category = this.dataset.category;
+        renderItems(category);
+      });
+    });
+
+    // Search input handler
+    document.getElementById('searchInput').addEventListener('input', function() {
+      const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+      renderItems(activeCategory, this.value);
+    });
+
+    // Initial render
+    renderItems('verbos');
+  </script>
+</body>
+</html>
