@@ -101,16 +101,15 @@
       margin: 0;
     }
 
-    .search-bar-container {
+    .sidebar-search {
       display: flex;
-      gap: 12px;
-      margin-top: 16px;
-      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
     }
 
     .search-input {
       flex: 1;
-      padding: 10px 14px;
+      padding: 10px 12px;
       background: rgba(17, 26, 46, 0.6);
       border: 1px solid rgba(122, 162, 255, 0.25);
       border-radius: 8px;
@@ -128,8 +127,8 @@
       background: rgba(17, 26, 46, 0.8);
     }
 
-    .filter-btn {
-      padding: 10px 14px;
+    .search-clear-btn {
+      padding: 8px 12px;
       background: rgba(122, 162, 255, 0.15);
       border: 1px solid rgba(122, 162, 255, 0.3);
       border-radius: 8px;
@@ -138,55 +137,122 @@
       font-size: 13px;
       font-weight: 600;
       transition: background 0.2s ease;
+      min-width: 40px;
     }
 
-    .filter-btn:hover {
+    .search-clear-btn:hover {
       background: rgba(122, 162, 255, 0.25);
     }
 
     .items-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
     }
 
     .item-card {
-      padding: 18px;
-      background: rgba(17, 26, 46, 0.5);
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(17, 26, 46, 0.6) 0%, rgba(17, 26, 46, 0.3) 100%);
       border: 1px solid rgba(122, 162, 255, 0.15);
-      border-radius: 10px;
-      transition: all 0.2s ease;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 280px;
+      cursor: pointer;
     }
 
     .item-card:hover {
-      background: rgba(17, 26, 46, 0.7);
+      background: linear-gradient(135deg, rgba(122, 162, 255, 0.15) 0%, rgba(122, 162, 255, 0.05) 100%);
       border-color: rgba(122, 162, 255, 0.3);
-      transform: translateY(-2px);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(122, 162, 255, 0.15);
+    }
+
+    .item-card-header {
+      margin-bottom: 20px;
+      flex-grow: 1;
     }
 
     .item-card-title {
-      font-size: 15px;
-      font-weight: 600;
+      font-size: 24px;
+      font-weight: 700;
       color: var(--text);
-      margin: 0 0 4px 0;
+      margin: 0 0 8px 0;
+      line-height: 1.2;
     }
 
     .item-card-subtitle {
-      font-size: 12px;
-      color: var(--muted);
-      margin: 0 0 14px 0;
+      font-size: 13px;
+      color: rgba(122, 162, 255, 0.7);
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .item-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: capitalize;
+      white-space: nowrap;
+    }
+
+    .tag-type {
+      background: rgba(122, 162, 255, 0.25);
+      color: rgba(122, 162, 255, 0.9);
+      border: 1px solid rgba(122, 162, 255, 0.3);
+    }
+
+    .tag-verb {
+      background: rgba(255, 180, 50, 0.25);
+      color: rgba(255, 180, 50, 0.9);
+      border: 1px solid rgba(255, 180, 50, 0.3);
+    }
+
+    .tag-complement {
+      background: rgba(100, 200, 255, 0.25);
+      color: rgba(100, 200, 255, 0.9);
+      border: 1px solid rgba(100, 200, 255, 0.3);
+    }
+
+    .tag-time {
+      background: rgba(150, 100, 255, 0.25);
+      color: rgba(150, 100, 255, 0.9);
+      border: 1px solid rgba(150, 100, 255, 0.3);
+    }
+
+    .tag-level {
+      background: rgba(100, 255, 150, 0.25);
+      color: rgba(100, 255, 150, 0.9);
+      border: 1px solid rgba(100, 255, 150, 0.3);
+    }
+
+    .tag-attribute {
+      background: rgba(255, 100, 150, 0.25);
+      color: rgba(255, 100, 150, 0.9);
+      border: 1px solid rgba(255, 100, 150, 0.3);
     }
 
     .item-card-footer {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
-      justify-content: space-between;
     }
 
     .practicar-btn {
-      padding: 8px 16px;
-      background: transparent;
+      padding: 10px 16px;
+      background: rgba(122, 162, 255, 0.2);
       border: 1px solid rgba(122, 162, 255, 0.4);
       border-radius: 6px;
       color: var(--text);
@@ -196,15 +262,17 @@
       transition: all 0.2s ease;
       text-decoration: none;
       display: inline-block;
+      flex: 1;
+      text-align: center;
     }
 
     .practicar-btn:hover {
-      background: rgba(122, 162, 255, 0.2);
+      background: rgba(122, 162, 255, 0.3);
       border-color: rgba(122, 162, 255, 0.6);
     }
 
     .checkmark {
-      color: rgba(155, 231, 255, 0.8);
+      color: rgba(100, 255, 150, 0.8);
       font-size: 18px;
       font-weight: 700;
     }
@@ -240,6 +308,18 @@
   <div class="index-container">
     <!-- SIDEBAR -->
     <aside class="sidebar">
+      <h3 class="sidebar-title">Buscar</h3>
+
+      <div class="sidebar-search">
+        <input
+          type="text"
+          class="search-input"
+          id="globalSearchInput"
+          placeholder="Buscar por título, tipo, verbo..."
+        />
+        <button class="search-clear-btn" id="clearSearchBtn">✕</button>
+      </div>
+
       <h3 class="sidebar-title">Categorías</h3>
 
       <button class="category-btn active" data-category="verbos">
@@ -277,6 +357,12 @@
         <span class="category-name">Pronombres</span>
         <span class="category-count">(7)</span>
       </button>
+
+      <button class="category-btn" data-category="nexus">
+        <span class="category-icon">🔗</span>
+        <span class="category-name">Nexus Words</span>
+        <span class="category-count">(1)</span>
+      </button>
     </aside>
 
     <!-- MAIN CONTENT -->
@@ -284,16 +370,6 @@
       <div class="content-header">
         <h1 class="content-title" id="categoryTitle">Verbos y formas verbales</h1>
         <p class="content-subtitle">Selecciona un subtema para practicar.</p>
-
-        <div class="search-bar-container">
-          <input
-            type="text"
-            class="search-input"
-            id="searchInput"
-            placeholder="Buscar flashcards..."
-          />
-          <button class="filter-btn">⚙️ Filtrar</button>
-        </div>
       </div>
 
       <div class="items-grid" id="itemsGrid">
@@ -307,85 +383,300 @@
       verbos: {
         title: 'Verbos y formas verbales',
         items: [
-          { name: 'Present Simple', count: '20 flashcards', url: './views/flashcard1.html' },
-          { name: 'Present Continuous', count: '15 flashcards', url: './views/flashcard2.html' },
-          { name: 'Past Simple', count: '18 flashcards', url: './views/flashcard3.html' },
-          { name: 'Be Going To', count: '12 flashcards', url: './views/flashcard4.html' },
-          { name: 'Verbos Habituales', count: '25 flashcards', url: './views/flashcard5.html' }
+          { 
+            name: 'Present Simple', 
+            subtitle: 'Tiempo presente simple',
+            count: '20 flashcards', 
+            url: './views/flashcard1.html',
+            tags: { type: 'Verbo', verb: 'work', time: 'Presente', level: 'A1' }
+          },
+          { 
+            name: 'Present Continuous', 
+            subtitle: 'Presente continuo',
+            count: '15 flashcards', 
+            url: './views/flashcard2.html',
+            tags: { type: 'Verbo', verb: 'am/is/are + -ing', time: 'Presente', level: 'A1' }
+          },
+          { 
+            name: 'Past Simple', 
+            subtitle: 'Pasado simple',
+            count: '18 flashcards', 
+            url: './views/flashcard3.html',
+            tags: { type: 'Verbo', verb: 'regular/irregular', time: 'Pasado', level: 'A2' }
+          },
+          { 
+            name: 'Be Going To', 
+            subtitle: 'Plan futuro cercano',
+            count: '12 flashcards', 
+            url: './views/flashcard4.html',
+            tags: { type: 'Verbo', verb: 'be going to', time: 'Futuro', level: 'A1' }
+          },
+          { 
+            name: 'Common Verbs', 
+            subtitle: 'Verbos comúnmente usados',
+            count: '25 flashcards', 
+            url: './views/flashcard5.html',
+            tags: { type: 'Verbo', verb: 'común', time: 'Variados', level: 'A1-B1' }
+          },
+          { 
+            name: 'TO BE Verb', 
+            subtitle: 'Verbo fundamental',
+            count: '5 formas', 
+            url: './views/flashcard27.html',
+            tags: { type: 'Verbo Básico', verb: 'be', level: 'A1' }
+          }
         ]
       },
       fonetica: {
         title: 'Fonética',
         items: [
-          { name: 'Fonética Vocales', count: '12 patrones', url: './views/flashcard6.html' },
-          { name: 'Fonética Consonantes', count: '24 consonantes', url: './views/flashcard7.html' },
-          { name: 'Fonética Diptongos', count: '8 diptongos', url: './views/flashcard8.html' }
+          { 
+            name: 'Phonetics Vowels', 
+            subtitle: 'Sonidos vocálicos',
+            count: '12 patrones', 
+            url: './views/flashcard6.html',
+            tags: { type: 'Fonética', level: 'A1' }
+          },
+          { 
+            name: 'Phonetics Consonants', 
+            subtitle: 'Sonidos consonánticos',
+            count: '24 consonantes', 
+            url: './views/flashcard7.html',
+            tags: { type: 'Fonética', level: 'A1' }
+          },
+          { 
+            name: 'Phonetics Diphthongs', 
+            subtitle: 'Combinaciones vocálicas',
+            count: '8 diptongos', 
+            url: './views/flashcard8.html',
+            tags: { type: 'Fonética', level: 'A2' }
+          }
         ]
       },
       articulos: {
         title: 'Artículos',
         items: [
-          { name: 'Artículos 1', count: '5 reglas', url: './views/flashcard10.html' }
+          { 
+            name: 'Articles A/AN/THE', 
+            subtitle: 'Reglas de artículos',
+            count: '5 reglas', 
+            url: './views/flashcard10.html',
+            tags: { type: 'Gramática', level: 'A1' }
+          }
         ]
       },
       adjetivos: {
         title: 'Adjetivos',
         items: [
-          { name: 'Adjetivos 1', count: '18 flashcards', url: './views/flashcard11.html' }
+          { 
+            name: 'Descriptive Adjectives', 
+            subtitle: 'Cualidades y características',
+            count: '18 flashcards', 
+            url: './views/flashcard11.html',
+            tags: { type: 'Adjetivo', complement: 'descriptivo', level: 'A1' }
+          }
         ]
       },
       adverbios: {
         title: 'Adverbios',
         items: [
-          { name: 'Adverbios de modo', count: '15 flashcards', url: './views/flashcard12.html' },
-          { name: 'Adverbios de tiempo', count: '11 flashcards', url: './views/flashcard13.html' },
-          { name: 'Adverbios de frecuencia', count: '8 flashcards', url: './views/flashcard14.html' },
-          { name: 'Adverbios de lugar', count: '12 flashcards', url: './views/flashcard15.html' },
-          { name: 'Adverbios de grado', count: '10 flashcards', url: './views/flashcard16.html' }
+          { 
+            name: 'Adverbs of Manner', 
+            subtitle: 'Cómo se hace algo',
+            count: '15 flashcards', 
+            url: './views/flashcard12.html',
+            tags: { type: 'Adverbio', complement: 'modo', level: 'A2' }
+          },
+          { 
+            name: 'Adverbs of Time', 
+            subtitle: 'Cuándo ocurre algo',
+            count: '11 flashcards', 
+            url: './views/flashcard13.html',
+            tags: { type: 'Adverbio', complement: 'tiempo', level: 'A2' }
+          },
+          { 
+            name: 'Adverbs of Frequency', 
+            subtitle: 'Con qué frecuencia',
+            count: '8 flashcards', 
+            url: './views/flashcard14.html',
+            tags: { type: 'Adverbio', complement: 'frecuencia', level: 'A1' }
+          },
+          { 
+            name: 'Adverbs of Place', 
+            subtitle: 'Dónde ocurre algo',
+            count: '12 flashcards', 
+            url: './views/flashcard15.html',
+            tags: { type: 'Adverbio', complement: 'lugar', level: 'A1' }
+          },
+          { 
+            name: 'Adverbs of Degree', 
+            subtitle: 'Intensidad o grado',
+            count: '10 flashcards', 
+            url: './views/flashcard16.html',
+            tags: { type: 'Adverbio', complement: 'grado', level: 'A2' }
+          }
         ]
       },
       pronombres: {
         title: 'Pronombres',
         items: [
-          { name: 'Pronombres Personales', count: '8 pronombres', url: './views/flashcard17.html' },
-          { name: 'Pronombres Posesivos', count: '5 tablas', url: './views/flashcard18.html' },
-          { name: 'Pronombres Reflexivos', count: '8 pronombres', url: './views/flashcard19.html' },
-          { name: 'Pronombres Demostrativos', count: '4 pronombres', url: './views/flashcard20.html' },
-          { name: 'Pronombres Interrogativos', count: '9 pronombres', url: './views/flashcard21.html' },
-          { name: 'Pronombres Indefinidos', count: '5 tablas', url: './views/flashcard22.html' },
-          { name: 'Pronombres Relativos', count: '4 tablas', url: './views/flashcard23.html' }
+          { 
+            name: 'Personal Pronouns', 
+            subtitle: 'Sujetos del verbo',
+            count: '8 pronombres', 
+            url: './views/flashcard17.html',
+            tags: { type: 'Pronombre', complement: 'personal', level: 'A1' }
+          },
+          { 
+            name: 'Possessive Pronouns', 
+            subtitle: 'Indicadores de posesión',
+            count: '5 tablas', 
+            url: './views/flashcard18.html',
+            tags: { type: 'Pronombre', complement: 'posesivo', level: 'A1' }
+          },
+          { 
+            name: 'Reflexive Pronouns', 
+            subtitle: 'Reflexión del sujeto',
+            count: '8 pronombres', 
+            url: './views/flashcard19.html',
+            tags: { type: 'Pronombre', complement: 'reflexivo', level: 'A2' }
+          },
+          { 
+            name: 'Demonstrative Pronouns', 
+            subtitle: 'Señalamiento',
+            count: '4 pronombres', 
+            url: './views/flashcard20.html',
+            tags: { type: 'Pronombre', complement: 'demostrativo', level: 'A1' }
+          },
+          { 
+            name: 'Interrogative Pronouns', 
+            subtitle: 'Para hacer preguntas',
+            count: '9 pronombres', 
+            url: './views/flashcard21.html',
+            tags: { type: 'Pronombre', complement: 'interrogativo', level: 'A1' }
+          },
+          { 
+            name: 'Indefinite Pronouns', 
+            subtitle: 'Cantidad indefinida',
+            count: '5 tablas', 
+            url: './views/flashcard22.html',
+            tags: { type: 'Pronombre', complement: 'indefinido', level: 'A2' }
+          },
+          { 
+            name: 'Relative Pronouns', 
+            subtitle: 'Conectar oraciones',
+            count: '4 tablas', 
+            url: './views/flashcard23.html',
+            tags: { type: 'Pronombre', complement: 'relativo', level: 'B1' }
+          }
+        ]
+      },
+      nexus: {
+        title: 'Nexus Words',
+        items: [
+          { 
+            name: 'Prepositions', 
+            subtitle: 'Palabras conectoras',
+            count: '13 palabras', 
+            url: './views/flashcard24.html',
+            tags: { type: 'Preposición', level: 'A1-B1' }
+          },
+          { 
+            name: 'Conjunctions', 
+            subtitle: 'Conectores de ideas',
+            count: '4 tipos', 
+            url: './views/flashcard25.html',
+            tags: { type: 'Conjunción', level: 'A1' }
+          },
+          { 
+            name: 'Interjections', 
+            subtitle: 'Expresiones emocionales',
+            count: '5 interjecciones', 
+            url: './views/flashcard26.html',
+            tags: { type: 'Interjección', level: 'A2' }
+          }
         ]
       }
     };
 
+    function renderTags(tags) {
+      if (!tags) return '';
+      let tagsHtml = '';
+      
+      if (tags.type) tagsHtml += `<span class="tag tag-type">${tags.type}</span>`;
+      if (tags.verb) tagsHtml += `<span class="tag tag-verb">${tags.verb}</span>`;
+      if (tags.complement) tagsHtml += `<span class="tag tag-complement">${tags.complement}</span>`;
+      if (tags.time) tagsHtml += `<span class="tag tag-time">${tags.time}</span>`;
+      if (tags.level) tagsHtml += `<span class="tag tag-level">${tags.level}</span>`;
+      
+      return tagsHtml;
+    }
+
     function renderItems(categoryKey, searchTerm = '') {
-      const category = categories[categoryKey];
       const itemsGrid = document.getElementById('itemsGrid');
       const titleElement = document.getElementById('categoryTitle');
+      const subtitleElement = document.querySelector('.content-subtitle');
 
-      titleElement.textContent = category.title;
+      let filteredItems = [];
+      let displayTitle = '';
 
-      let filteredItems = category.items;
-      if (searchTerm) {
-        filteredItems = category.items.filter(item =>
-          item.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+      if (searchTerm.trim() !== '') {
+        // Búsqueda global en todas las categorías
+        displayTitle = 'Search Results';
+        subtitleElement.textContent = `Mostrando resultados para "${searchTerm}"`;
+        
+        // Buscar en todas las categorías
+        Object.values(categories).forEach(category => {
+          category.items.forEach(item => {
+            const titleMatch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+            const tagsMatch = searchTermInTags(item.tags, searchTerm);
+            
+            if (titleMatch || tagsMatch) {
+              filteredItems.push(item);
+            }
+          });
+        });
+      } else {
+        // Vista normal de categoría
+        const category = categories[categoryKey];
+        displayTitle = category.title;
+        subtitleElement.textContent = 'Selecciona un subtema para practicar.';
+        filteredItems = category.items;
       }
 
-      itemsGrid.innerHTML = filteredItems
-        .map(
-          item => `
-        <div class="item-card">
-          <p class="item-card-title">${item.name}</p>
-          <p class="item-card-subtitle">${item.count}</p>
-          <div class="item-card-footer">
-            <a href="${item.url}" class="practicar-btn">Practicar</a>
-            <span class="checkmark">✓</span>
-          </div>
-        </div>
-      `
-        )
-        .join('');
+      titleElement.textContent = displayTitle;
+
+      itemsGrid.innerHTML = filteredItems.length === 0 
+        ? '<p style="grid-column: 1/-1; color: var(--muted); text-align: center; padding: 40px 20px;">No se encontraron resultados</p>'
+        : filteredItems
+          .map(
+            item => `
+          <a href="${item.url}" class="item-card" style="text-decoration: none; color: inherit;">
+            <div class="item-card-header">
+              <p class="item-card-title">${item.name}</p>
+              <p class="item-card-subtitle">${item.subtitle}</p>
+            </div>
+            <div class="item-card-tags">
+              ${renderTags(item.tags)}
+            </div>
+            <div class="item-card-footer">
+              <button class="practicar-btn" onclick="event.preventDefault(); window.location.href='${item.url}'">Practicar</button>
+            </div>
+          </a>
+        `
+          )
+          .join('');
+    }
+
+    function searchTermInTags(tags, searchTerm) {
+      if (!tags) return false;
+      const searchLower = searchTerm.toLowerCase();
+      
+      return (tags.type && tags.type.toLowerCase().includes(searchLower)) ||
+             (tags.verb && tags.verb.toLowerCase().includes(searchLower)) ||
+             (tags.complement && tags.complement.toLowerCase().includes(searchLower)) ||
+             (tags.time && tags.time.toLowerCase().includes(searchLower)) ||
+             (tags.level && tags.level.toLowerCase().includes(searchLower));
     }
 
     // Category button click handler
@@ -394,15 +685,29 @@
         document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
 
+        // Limpiar búsqueda cuando se cambia de categoría
+        const searchInput = document.getElementById('globalSearchInput');
+        searchInput.value = '';
+
         const category = this.dataset.category;
         renderItems(category);
       });
     });
 
-    // Search input handler
-    document.getElementById('searchInput').addEventListener('input', function() {
+    // Global search handler
+    document.getElementById('globalSearchInput').addEventListener('input', function() {
       const activeCategory = document.querySelector('.category-btn.active').dataset.category;
       renderItems(activeCategory, this.value);
+    });
+
+    // Clear search button
+    document.getElementById('clearSearchBtn').addEventListener('click', function() {
+      const searchInput = document.getElementById('globalSearchInput');
+      searchInput.value = '';
+      searchInput.focus();
+      
+      const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+      renderItems(activeCategory);
     });
 
     // Initial render
