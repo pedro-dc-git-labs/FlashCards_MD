@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Categoria - Verbos y formas verbales</title>
+  <link rel="stylesheet" href="../public/stylesheets/style.css" />
+  <style>
+    body {
+      padding: 16px;
+    }
+
+    .wrap-view {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .scene {
+      perspective: 1500px;
+    }
+
+    .master-card {
+      position: relative;
+      min-height: 720px;
+      transform-style: preserve-3d;
+      transition: transform 0.7s ease;
+    }
+
+    .master-card.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(17, 26, 46, 0.94), rgba(15, 23, 48, 0.92));
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.25);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .back {
+      transform: rotateY(180deg);
+      overflow: auto;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 24px;
+      color: var(--text);
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 2px;
+    }
+
+    .summary-block {
+      border: 1px solid rgba(122, 162, 255, 0.22);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(122, 162, 255, 0.08);
+    }
+
+    .summary-block h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: var(--accent2);
+    }
+
+    .summary-block p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--text);
+    }
+
+    .table-wrap {
+      border: 1px solid rgba(122, 162, 255, 0.2);
+      border-radius: 12px;
+      overflow: auto;
+      background: rgba(17, 26, 46, 0.45);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+      color: var(--text);
+    }
+
+    .group-start td {
+      border-top: 2px solid rgba(122, 162, 255, 0.28);
+    }
+
+    .form-cell {
+      font-weight: 700;
+      color: var(--accent2);
+      background: rgba(122, 162, 255, 0.07);
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .controls {
+      margin-top: auto;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid rgba(122, 162, 255, 0.4);
+      border-radius: 8px;
+      background: rgba(122, 162, 255, 0.2);
+      color: var(--text);
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn:hover {
+      background: rgba(122, 162, 255, 0.3);
+      border-color: rgba(122, 162, 255, 0.55);
+    }
+
+    .btn.secondary {
+      background: rgba(155, 231, 255, 0.1);
+      border-color: rgba(155, 231, 255, 0.3);
+      color: rgba(155, 231, 255, 0.95);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .item-card {
+      padding: 18px;
+      background: linear-gradient(135deg, rgba(17, 26, 46, 0.6) 0%, rgba(17, 26, 46, 0.3) 100%);
+      border: 1px solid rgba(122, 162, 255, 0.15);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      min-height: 230px;
+    }
+
+    .item-card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 6px;
+      line-height: 1.2;
+    }
+
+    .item-card-subtitle {
+      font-size: 13px;
+      color: rgba(122, 162, 255, 0.7);
+      margin: 0 0 14px;
+      font-weight: 500;
+    }
+
+    .item-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: capitalize;
+      white-space: nowrap;
+    }
+
+    .tag-type {
+      background: rgba(122, 162, 255, 0.25);
+      color: rgba(122, 162, 255, 0.9);
+      border: 1px solid rgba(122, 162, 255, 0.3);
+    }
+
+    .tag-verb {
+      background: rgba(255, 180, 50, 0.25);
+      color: rgba(255, 180, 50, 0.9);
+      border: 1px solid rgba(255, 180, 50, 0.3);
+    }
+
+    .tag-time {
+      background: rgba(150, 100, 255, 0.25);
+      color: rgba(150, 100, 255, 0.9);
+      border: 1px solid rgba(150, 100, 255, 0.3);
+    }
+
+    .tag-level {
+      background: rgba(100, 255, 150, 0.25);
+      color: rgba(100, 255, 150, 0.9);
+      border: 1px solid rgba(100, 255, 150, 0.3);
+    }
+
+    .item-card-footer {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .practicar-btn {
+      width: 100%;
+    }
+
+    @media (max-width: 900px) {
+      .master-card {
+        min-height: 980px;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 10px;
+      }
+
+      .face {
+        padding: 12px;
+      }
+
+      .title {
+        font-size: 21px;
+      }
+
+      .master-card {
+        min-height: 1120px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap-view scene">
+    <article class="master-card" id="masterCard" aria-label="Resumen y tarjetas de verbos" tabindex="0">
+      <section class="face front">
+        <span class="badge">Resumen de categoria</span>
+        <h1 class="title">Verbos y formas verbales</h1>
+        <p class="subtitle">Primero veras la tabla resumen. Usa el boton Girar para mostrar las tarjetas de cada tema verbal.</p>
+
+        <div class="summary-grid">
+          <div class="summary-block">
+            <h3>Present Simple</h3>
+            <p>Habitos, rutinas y hechos generales. Usa do/does para negacion y pregunta.</p>
+          </div>
+          <div class="summary-block">
+            <h3>Present Continuous</h3>
+            <p>Acciones en progreso y situaciones temporales. Estructura: am/is/are + -ing.</p>
+          </div>
+          <div class="summary-block">
+            <h3>Past Simple</h3>
+            <p>Acciones terminadas en el pasado. Usa did para pregunta y negacion.</p>
+          </div>
+          <div class="summary-block">
+            <h3>Be Going To</h3>
+            <p>Intencion previa y prediccion con evidencia. Estructura: be + going to + verbo.</p>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Forma verbal</th>
+                <th>Persona</th>
+                <th>Afirmacion</th>
+                <th>Negacion</th>
+                <th>Pregunta</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="group-start">
+                <td class="form-cell" rowspan="2">Present Simple</td>
+                <td>I / You / We / They</td>
+                <td>work</td>
+                <td>do not work</td>
+                <td>Do ... work?</td>
+              </tr>
+              <tr>
+                <td>He / She / It</td>
+                <td>works</td>
+                <td>does not work</td>
+                <td>Does ... work?</td>
+              </tr>
+              <tr class="group-start">
+                <td class="form-cell" rowspan="3">Present Continuous</td>
+                <td>I</td>
+                <td>am working</td>
+                <td>am not working</td>
+                <td>Am I working?</td>
+              </tr>
+              <tr>
+                <td>You / We / They</td>
+                <td>are working</td>
+                <td>are not working</td>
+                <td>Are ... working?</td>
+              </tr>
+              <tr>
+                <td>He / She / It</td>
+                <td>is working</td>
+                <td>is not working</td>
+                <td>Is ... working?</td>
+              </tr>
+              <tr class="group-start">
+                <td class="form-cell" rowspan="1">Past Simple</td>
+                <td>Todas</td>
+                <td>worked</td>
+                <td>did not + work</td>
+                <td>Did + sujeto + work?</td>
+              </tr>
+              <tr class="group-start">
+                <td class="form-cell" rowspan="3">Be Going To</td>
+                <td>I</td>
+                <td>am going to work</td>
+                <td>am not going to work</td>
+                <td>Am I going to work?</td>
+              </tr>
+              <tr>
+                <td>You / We / They</td>
+                <td>are going to work</td>
+                <td>are not going to work</td>
+                <td>Are ... going to work?</td>
+              </tr>
+              <tr>
+                <td>He / She / It</td>
+                <td>is going to work</td>
+                <td>is not going to work</td>
+                <td>Is ... going to work?</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="controls">
+          <button class="btn" type="button" id="flipBtn">Girar a tarjetas</button>
+        </div>
+      </section>
+
+      <section class="face back">
+        <span class="badge">Tarjetas de practica</span>
+        <h2 class="title">Subtemas de Verbos y formas verbales</h2>
+        <p class="subtitle">Mismo estilo de topics por color y acceso directo a cada flashcard.</p>
+
+        <div class="cards-grid" id="cardsGrid"></div>
+
+        <div class="controls">
+          <button class="btn secondary" type="button" id="resetBtn">Volver al resumen</button>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <script>
+    const verbItems = [
+      {
+        name: "Present Simple",
+        subtitle: "Tiempo presente simple",
+        url: "./flashcard1.html",
+        tags: { type: "Verbo", verb: "work", time: "Presente", level: "A1" }
+      },
+      {
+        name: "Present Continuous",
+        subtitle: "Presente continuo",
+        url: "./flashcard2.html",
+        tags: { type: "Verbo", verb: "am/is/are + -ing", time: "Presente", level: "A1" }
+      },
+      {
+        name: "Past Simple",
+        subtitle: "Pasado simple",
+        url: "./flashcard3.html",
+        tags: { type: "Verbo", verb: "regular/irregular", time: "Pasado", level: "A2" }
+      },
+      {
+        name: "Be Going To",
+        subtitle: "Plan futuro cercano",
+        url: "./flashcard4.html",
+        tags: { type: "Verbo", verb: "be going to", time: "Futuro", level: "A1" }
+      },
+      {
+        name: "Common Verbs",
+        subtitle: "Verbos comunmente usados",
+        url: "./flashcard5.html",
+        tags: { type: "Verbo", verb: "comun", time: "Variados", level: "A1-B1" }
+      },
+      {
+        name: "TO BE Verb",
+        subtitle: "Verbo fundamental",
+        url: "./flashcard27.html",
+        tags: { type: "Verbo Basico", verb: "be", level: "A1" }
+      }
+    ];
+
+    const masterCard = document.getElementById("masterCard");
+    const flipBtn = document.getElementById("flipBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const cardsGrid = document.getElementById("cardsGrid");
+
+    function renderTags(tags) {
+      let html = "";
+      if (tags.type) html += `<span class="tag tag-type">${tags.type}</span>`;
+      if (tags.verb) html += `<span class="tag tag-verb">${tags.verb}</span>`;
+      if (tags.time) html += `<span class="tag tag-time">${tags.time}</span>`;
+      if (tags.level) html += `<span class="tag tag-level">${tags.level}</span>`;
+      return html;
+    }
+
+    cardsGrid.innerHTML = verbItems
+      .map(
+        (item) => `
+          <article class="item-card">
+            <div class="item-card-header">
+              <p class="item-card-title">${item.name}</p>
+              <p class="item-card-subtitle">${item.subtitle}</p>
+            </div>
+            <div class="item-card-tags">${renderTags(item.tags)}</div>
+            <div class="item-card-footer">
+              <a class="btn practicar-btn" href="${item.url}">Practicar</a>
+            </div>
+          </article>
+        `
+      )
+      .join("");
+
+    function flipCard() {
+      masterCard.classList.toggle("is-flipped");
+    }
+
+    flipBtn.addEventListener("click", function (event) {
+      event.stopPropagation();
+      flipCard();
+    });
+
+    resetBtn.addEventListener("click", function (event) {
+      event.stopPropagation();
+      masterCard.classList.remove("is-flipped");
+    });
+
+    masterCard.addEventListener("keydown", function (event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        flipCard();
+      }
+    });
+  </script>
+</body>
+</html>

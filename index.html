@@ -150,6 +150,24 @@
       gap: 20px;
     }
 
+    .embedded-view {
+      grid-column: 1 / -1;
+      border: 1px solid rgba(122, 162, 255, 0.2);
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(17, 26, 46, 0.4);
+      min-height: 86vh;
+      box-shadow: 0 8px 24px rgba(122, 162, 255, 0.12);
+    }
+
+    .embedded-view iframe {
+      display: block;
+      width: 100%;
+      height: 86vh;
+      border: 0;
+      background: transparent;
+    }
+
     .item-card {
       padding: 24px;
       background: linear-gradient(135deg, rgba(17, 26, 46, 0.6) 0%, rgba(17, 26, 46, 0.3) 100%);
@@ -616,6 +634,17 @@
       const itemsGrid = document.getElementById('itemsGrid');
       const titleElement = document.getElementById('categoryTitle');
       const subtitleElement = document.querySelector('.content-subtitle');
+
+      if (categoryKey === 'verbos' && searchTerm.trim() === '') {
+        titleElement.textContent = 'Verbos y formas verbales';
+        subtitleElement.textContent = 'Vista incrustada de la categoria en el panel derecho.';
+        itemsGrid.innerHTML = `
+          <div class="embedded-view">
+            <iframe src="./views/cat01.html" title="Categoria Verbos y formas verbales"></iframe>
+          </div>
+        `;
+        return;
+      }
 
       let filteredItems = [];
       let displayTitle = '';
