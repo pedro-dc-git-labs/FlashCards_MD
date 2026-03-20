@@ -1,4 +1,4 @@
-# Especificación técnica - FlashCards English Path
+# Especificación técnica - FlashCards
 
 ## Resumen
 - Sitio web estático en **HTML/CSS/JavaScript vainilla** (sin frameworks ni librerías externas).
