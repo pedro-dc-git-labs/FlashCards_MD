@@ -33,6 +33,36 @@
       letter-spacing: 1px;
     }
 
+    .mode-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .mode-btn {
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(122, 162, 255, 0.25);
+      background: rgba(17, 26, 46, 0.55);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .mode-btn.active {
+      background: rgba(122, 162, 255, 0.22);
+      border-color: rgba(122, 162, 255, 0.55);
+      color: var(--text);
+    }
+
+    .sidebar-group.hidden {
+      display: none;
+    }
+
     .category-btn {
       width: 100%;
       text-align: left;
@@ -168,6 +198,41 @@
       background: transparent;
     }
 
+    .embedded-topic-toolbar {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1px solid rgba(122, 162, 255, 0.2);
+      border-radius: 10px;
+      background: rgba(17, 26, 46, 0.5);
+    }
+
+    .embedded-topic-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .embedded-topic-btn {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(122, 162, 255, 0.35);
+      background: rgba(122, 162, 255, 0.18);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .embedded-topic-btn:hover {
+      background: rgba(122, 162, 255, 0.28);
+    }
+
     .item-card {
       padding: 24px;
       background: linear-gradient(135deg, rgba(17, 26, 46, 0.6) 0%, rgba(17, 26, 46, 0.3) 100%);
@@ -268,6 +333,51 @@
       align-items: center;
     }
 
+    .topic-card-order {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      background: rgba(100, 200, 255, 0.2);
+      color: rgba(100, 200, 255, 0.95);
+      border: 1px solid rgba(100, 200, 255, 0.35);
+      margin-bottom: 10px;
+      width: fit-content;
+    }
+
+    .topic-subtopics {
+      margin: 10px 0 12px 16px;
+      padding: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .topic-outline-card {
+      grid-column: 1 / -1;
+      padding: 20px;
+      border: 1px solid rgba(122, 162, 255, 0.2);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(17, 26, 46, 0.7) 0%, rgba(17, 26, 46, 0.35) 100%);
+    }
+
+    .topic-outline-card h3 {
+      margin: 0 0 12px;
+      font-size: 16px;
+      color: var(--accent2);
+    }
+
+    .topic-outline {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--text);
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
     .practicar-btn {
       padding: 10px 16px;
       background: rgba(122, 162, 255, 0.2);
@@ -328,6 +438,11 @@
     <aside class="sidebar">
       <h3 class="sidebar-title">Buscar</h3>
 
+      <div class="mode-switch" role="tablist" aria-label="Modo de navegacion">
+        <button class="mode-btn active" id="flashcardsModeBtn" data-mode="flashcards">Flashcards</button>
+        <button class="mode-btn" id="temarioModeBtn" data-mode="temario">Temario</button>
+      </div>
+
       <div class="sidebar-search">
         <input
           type="text"
@@ -338,49 +453,53 @@
         <button class="search-clear-btn" id="clearSearchBtn">✕</button>
       </div>
 
-      <h3 class="sidebar-title">Categorías</h3>
+      <h3 class="sidebar-title" id="sidebarSectionTitle">Categorías</h3>
 
-      <button class="category-btn active" data-category="verbos">
-        <span class="category-icon">📚</span>
-        <span class="category-name">Verbos y formas verbales</span>
-        <span class="category-count">(5)</span>
-      </button>
+      <div id="flashcardsCategoryList" class="sidebar-group">
+        <button class="category-btn active" data-category="verbos">
+          <span class="category-icon">📚</span>
+          <span class="category-name">Verbos y formas verbales</span>
+          <span class="category-count">(5)</span>
+        </button>
 
-      <button class="category-btn" data-category="fonetica">
-        <span class="category-icon">🔊</span>
-        <span class="category-name">Fonética</span>
-        <span class="category-count">(3)</span>
-      </button>
+        <button class="category-btn" data-category="fonetica">
+          <span class="category-icon">🔊</span>
+          <span class="category-name">Fonética</span>
+          <span class="category-count">(3)</span>
+        </button>
 
-      <button class="category-btn" data-category="articulos">
-        <span class="category-icon">🏷️</span>
-        <span class="category-name">Artículos</span>
-        <span class="category-count">(1)</span>
-      </button>
+        <button class="category-btn" data-category="articulos">
+          <span class="category-icon">🏷️</span>
+          <span class="category-name">Artículos</span>
+          <span class="category-count">(1)</span>
+        </button>
 
-      <button class="category-btn" data-category="adjetivos">
-        <span class="category-icon">✨</span>
-        <span class="category-name">Adjetivos</span>
-        <span class="category-count">(1)</span>
-      </button>
+        <button class="category-btn" data-category="adjetivos">
+          <span class="category-icon">✨</span>
+          <span class="category-name">Adjetivos</span>
+          <span class="category-count">(1)</span>
+        </button>
 
-      <button class="category-btn" data-category="adverbios">
-        <span class="category-icon">➡️</span>
-        <span class="category-name">Adverbios</span>
-        <span class="category-count">(5)</span>
-      </button>
+        <button class="category-btn" data-category="adverbios">
+          <span class="category-icon">➡️</span>
+          <span class="category-name">Adverbios</span>
+          <span class="category-count">(5)</span>
+        </button>
 
-      <button class="category-btn" data-category="pronombres">
-        <span class="category-icon">👤</span>
-        <span class="category-name">Pronombres</span>
-        <span class="category-count">(7)</span>
-      </button>
+        <button class="category-btn" data-category="pronombres">
+          <span class="category-icon">👤</span>
+          <span class="category-name">Pronombres</span>
+          <span class="category-count">(7)</span>
+        </button>
 
-      <button class="category-btn" data-category="nexus">
-        <span class="category-icon">🔗</span>
-        <span class="category-name">Nexus Words</span>
-        <span class="category-count">(1)</span>
-      </button>
+        <button class="category-btn" data-category="nexus">
+          <span class="category-icon">🔗</span>
+          <span class="category-name">Nexus Words</span>
+          <span class="category-count">(1)</span>
+        </button>
+      </div>
+
+      <div id="topicsCategoryList" class="sidebar-group hidden"></div>
     </aside>
 
     <!-- MAIN CONTENT -->
@@ -617,9 +736,171 @@
       }
     };
 
+    const topicSections = [
+      {
+        key: 'tema01',
+        order: 'Tema 1',
+        name: 'Categorias gramaticales',
+        subtitle: 'Sustantivos, articulos, adjetivos, adverbios y pronombres',
+        count: '9 apartados',
+        url: './views/temario-completo.html#1-categorias-gramaticales',
+        icon: '🧩',
+        tags: { type: 'Temario', complement: 'Bases A1', level: 'A1' },
+        outline: ['1.1 Sustantivos', '1.2 Articulos', '1.3 Adjetivos', '1.4 Adverbios', '1.5 Pronombres']
+      },
+      {
+        key: 'tema02',
+        order: 'Tema 2',
+        name: 'Verbos basicos esenciales',
+        subtitle: 'To be, have, do, go, want, need, can y verbos de alta frecuencia',
+        count: 'bloque base',
+        url: './views/temario-completo.html#2-verbos-basicos-esenciales',
+        icon: '🛠️',
+        tags: { type: 'Temario', complement: 'Verbos', level: 'A1' },
+        outline: ['to be', 'have/have got', 'do', 'go/come', 'like/love/hate', 'want/need', 'can']
+      },
+      {
+        key: 'tema03',
+        order: 'Tema 3',
+        name: 'Present Simple',
+        subtitle: 'Rutinas, hechos y horarios con do/does',
+        count: 'estructura completa',
+        url: './views/temario-completo.html#3-present-simple',
+        icon: '⏱️',
+        tags: { type: 'Temario', time: 'Presente', level: 'A1' },
+        outline: ['Usos', 'Afirmativa/Negativa/Pregunta', 'Reglas de 3ra persona']
+      },
+      {
+        key: 'tema04',
+        order: 'Tema 4',
+        name: 'Present Continuous',
+        subtitle: 'Acciones en progreso y situaciones temporales',
+        count: 'estructura completa',
+        url: './views/temario-completo.html#4-present-continuous',
+        icon: '🔄',
+        tags: { type: 'Temario', time: 'Presente', level: 'A1' },
+        outline: ['am/is/are + -ing', 'formas por persona', 'reglas de formacion -ing']
+      },
+      {
+        key: 'tema05',
+        order: 'Tema 5',
+        name: 'Past Simple',
+        subtitle: 'Acciones terminadas y marcadores de pasado',
+        count: 'regular e irregular',
+        url: './views/temario-completo.html#5-past-simple',
+        icon: '🕰️',
+        tags: { type: 'Temario', time: 'Pasado', level: 'A1-A2' },
+        outline: ['verbos regulares e irregulares', 'did en negativa/pregunta', 'marcadores temporales']
+      },
+      {
+        key: 'tema06',
+        order: 'Tema 6',
+        name: 'Past Continuous',
+        subtitle: 'Proceso en pasado, interrupciones y acciones paralelas',
+        count: 'was/were + -ing',
+        url: './views/temario-completo.html#6-past-continuous',
+        icon: '🌙',
+        tags: { type: 'Temario', time: 'Pasado', level: 'A2' },
+        outline: ['accion en curso en pasado', 'when/while', 'formas por persona']
+      },
+      {
+        key: 'tema07',
+        order: 'Tema 7',
+        name: 'There is / There are',
+        subtitle: 'Estructuras de existencia en singular y plural',
+        count: 'con cantidades',
+        url: './views/temario-completo.html#7-there-is-there-are',
+        icon: '📍',
+        tags: { type: 'Temario', complement: 'Existencia', level: 'A1' },
+        outline: ['formas afirmativa/negativa/pregunta', 'some/any', 'how much/how many']
+      },
+      {
+        key: 'tema08',
+        order: 'Tema 8',
+        name: 'Verbos modales basicos',
+        subtitle: 'can, must, should y have to en usos iniciales',
+        count: '4 modales',
+        url: './views/temario-completo.html#8-verbos-modales-basicos',
+        icon: '⚙️',
+        tags: { type: 'Temario', verb: 'Modales', level: 'A1' },
+        outline: ['valor comunicativo', 'estructura base', 'negativas de contraste']
+      },
+      {
+        key: 'tema09',
+        order: 'Tema 9',
+        name: 'Imperativos',
+        subtitle: 'Ordenes, instrucciones y sugerencias con let\'s',
+        count: '4 tipos',
+        url: './views/temario-completo.html#9-imperativos',
+        icon: '📣',
+        tags: { type: 'Temario', complement: 'Instrucciones', level: 'A1' },
+        outline: ['imperativo afirmativo', 'imperativo negativo', 'let\'s', 'please + imperativo']
+      },
+      {
+        key: 'tema10',
+        order: 'Tema 10',
+        name: 'Gustos y preferencias con -ing',
+        subtitle: 'Patrones con like, love, enjoy, hate y prefer',
+        count: '5 verbos clave',
+        url: './views/temario-completo.html#10-gustos-y-preferencias-con-ing',
+        icon: '❤️',
+        tags: { type: 'Temario', complement: 'Preferencias', level: 'A1' },
+        outline: ['like + -ing', 'prefer + -ing', 'verbos despues de preposicion en -ing']
+      },
+      {
+        key: 'anexo01',
+        order: 'Anexo 1',
+        name: 'Future Simple',
+        subtitle: 'Will para decisiones, promesas y predicciones',
+        count: 'ampliacion',
+        url: './views/temario-completo.html#anexo-1-future-simple',
+        icon: '🔮',
+        tags: { type: 'Anexo', time: 'Futuro', level: 'A1+' },
+        outline: ['will + verbo base', 'usos principales', 'formas por persona']
+      },
+      {
+        key: 'anexo02',
+        order: 'Anexo 2',
+        name: 'Future Continuous',
+        subtitle: 'Acciones en progreso en un momento futuro',
+        count: 'ampliacion',
+        url: './views/temario-completo.html#anexo-2-future-continuous',
+        icon: '🧭',
+        tags: { type: 'Anexo', time: 'Futuro', level: 'A1+' },
+        outline: ['will be + -ing', 'planes en agenda', 'pregunta cortes sobre planes']
+      },
+      {
+        key: 'anexo03',
+        order: 'Anexo 3',
+        name: 'Fonetica del ingles',
+        subtitle: 'IPA, vocales, diptongos, schwa y acentuacion',
+        count: 'bases de pronunciacion',
+        url: './views/temario-completo.html#anexo-3-fonetica-del-ingles',
+        icon: '🔊',
+        tags: { type: 'Anexo', complement: 'Pronunciacion', level: 'A1' },
+        outline: ['IPA/AFI', 'vocales cortas/largas', 'diptongos', 'schwa /ə/', 'acento de palabra']
+      },
+      {
+        key: 'anexo04',
+        order: 'Anexo 4',
+        name: 'Resumen de tiempos verbales',
+        subtitle: 'Tabla comparativa de 6 tiempos trabajados',
+        count: 'tabla final',
+        url: './views/temario-completo.html#anexo-4-resumen-de-tiempos-verbales',
+        icon: '📊',
+        tags: { type: 'Anexo', complement: 'Resumen', level: 'A1-A2' },
+        outline: ['present simple', 'present continuous', 'past simple', 'past continuous', 'future simple', 'future continuous']
+      }
+    ];
+
+    let currentMode = 'flashcards';
+    let currentFlashCategory = 'verbos';
+    let currentTopicKey = 'all';
+    let currentTopicView = 'list';
+
     function renderTags(tags) {
       if (!tags) return '';
-      let tagsHtml = '';
+        name: 'Categorías gramaticales',
       
       if (tags.type) tagsHtml += `<span class="tag tag-type">${tags.type}</span>`;
       if (tags.verb) tagsHtml += `<span class="tag tag-verb">${tags.verb}</span>`;
@@ -629,7 +910,7 @@
       
       return tagsHtml;
     }
-
+        name: 'Verbos básicos esenciales',
     function renderItems(categoryKey, searchTerm = '') {
       const itemsGrid = document.getElementById('itemsGrid');
       const titleElement = document.getElementById('categoryTitle');
@@ -637,7 +918,7 @@
 
       if (categoryKey === 'verbos' && searchTerm.trim() === '') {
         titleElement.textContent = 'Verbos y formas verbales';
-        subtitleElement.textContent = 'Vista incrustada de la categoria en el panel derecho.';
+        name: 'Verbos modales básicos',
         itemsGrid.innerHTML = `
           <div class="embedded-view">
             <iframe src="./views/cat01.html" title="Categoria Verbos y formas verbales"></iframe>
@@ -647,7 +928,7 @@
       }
 
       let filteredItems = [];
-      let displayTitle = '';
+        name: 'Fonética del inglés',
 
       if (searchTerm.trim() !== '') {
         // Búsqueda global en todas las categorías
@@ -697,6 +978,162 @@
           .join('');
     }
 
+    function renderTopicTags(tags) {
+      return renderTags(tags);
+    }
+
+    function renderTopicSidebarButtons() {
+      const topicList = document.getElementById('topicsCategoryList');
+      const buttons = [
+        '<button class="category-btn active" data-topic="all"><span class="category-icon">📚</span><span class="category-name">Todo el temario</span><span class="category-count">(14)</span></button>'
+      ];
+
+      topicSections.forEach(topic => {
+        buttons.push(`
+          <button class="category-btn" data-topic="${topic.key}">
+            <span class="category-icon">${topic.icon}</span>
+            <span class="category-name">${topic.order}: ${topic.name}</span>
+          </button>
+        `);
+      });
+
+      topicList.innerHTML = buttons.join('');
+    }
+
+    function openEmbeddedTopicByKey(topicKey) {
+      const topic = topicSections.find(item => item.key === topicKey);
+      if (!topic) {
+        return;
+      }
+
+      const itemsGrid = document.getElementById('itemsGrid');
+      const titleElement = document.getElementById('categoryTitle');
+      const subtitleElement = document.querySelector('.content-subtitle');
+
+      currentTopicView = 'detail';
+      currentTopicKey = topicKey;
+      titleElement.textContent = `${topic.order}: ${topic.name}`;
+      subtitleElement.textContent = 'Vista embebida del tema dentro del panel principal.';
+
+      itemsGrid.innerHTML = `
+        <div class="embedded-topic-toolbar">
+          <strong>${topic.order}: ${topic.name}</strong>
+          <div class="embedded-topic-actions">
+            <button class="embedded-topic-btn" id="backToTemarioListBtn">Volver al listado</button>
+            <a class="embedded-topic-btn" href="${topic.url}" target="_blank" rel="noopener noreferrer">Abrir en pestaña nueva</a>
+          </div>
+        </div>
+        <div class="embedded-view">
+          <iframe src="${topic.url}" title="${topic.name}"></iframe>
+        </div>
+      `;
+
+      const backButton = document.getElementById('backToTemarioListBtn');
+      if (backButton) {
+        backButton.addEventListener('click', () => {
+          currentTopicView = 'list';
+          currentTopicKey = 'all';
+          document.querySelectorAll('#topicsCategoryList .category-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.topic === 'all');
+          });
+          renderTopicItems('', 'all');
+        });
+      }
+    }
+
+    function renderTopicItems(searchTerm = '', selectedTopic = 'all') {
+      const itemsGrid = document.getElementById('itemsGrid');
+      const titleElement = document.getElementById('categoryTitle');
+      const subtitleElement = document.querySelector('.content-subtitle');
+
+      currentTopicView = 'list';
+
+      let filtered = topicSections;
+      const search = searchTerm.trim().toLowerCase();
+
+      if (selectedTopic !== 'all') {
+        filtered = filtered.filter(topic => topic.key === selectedTopic);
+      }
+
+      if (search) {
+        filtered = filtered.filter(topic => {
+          const inOutline = topic.outline.some(item => item.toLowerCase().includes(search));
+          return topic.name.toLowerCase().includes(search) || topic.subtitle.toLowerCase().includes(search) || inOutline;
+        });
+      }
+
+      const selectedTopicData = topicSections.find(topic => topic.key === selectedTopic);
+      titleElement.textContent = selectedTopicData ? `${selectedTopicData.order}: ${selectedTopicData.name}` : 'Temario A1 + anexos';
+      subtitleElement.textContent = search
+        ? `Resultados en temario para "${searchTerm}"`
+        : selectedTopicData
+          ? `Vista detallada del bloque ${selectedTopicData.order.toLowerCase()}.`
+          : 'Selecciona un tema para abrir su pagina completa.';
+
+      let outlineHtml = '';
+      if (!search && selectedTopic === 'all') {
+        outlineHtml = `
+          <section class="topic-outline-card">
+            <h3>Estructura completa del PDF</h3>
+            <ol class="topic-outline">
+              ${topicSections.map(topic => `<li>${topic.order}: ${topic.name}</li>`).join('')}
+            </ol>
+          </section>
+        `;
+      }
+
+      const cardsHtml = filtered.length === 0
+        ? '<p style="grid-column: 1/-1; color: var(--muted); text-align: center; padding: 40px 20px;">No se encontraron temas</p>'
+        : filtered.map(topic => `
+            <a href="${topic.url}" class="item-card" data-topic-open="${topic.key}" style="text-decoration: none; color: inherit;">
+              <div class="item-card-header">
+                <span class="topic-card-order">${topic.order}</span>
+                <p class="item-card-title">${topic.name}</p>
+                <p class="item-card-subtitle">${topic.subtitle}</p>
+                <ul class="topic-subtopics">
+                  ${topic.outline.slice(0, 4).map(point => `<li>${point}</li>`).join('')}
+                </ul>
+              </div>
+              <div class="item-card-tags">
+                ${renderTopicTags(topic.tags)}
+              </div>
+              <div class="item-card-footer">
+                <button class="practicar-btn" onclick="event.preventDefault(); openEmbeddedTopicByKey('${topic.key}')">Abrir tema</button>
+              </div>
+            </a>
+          `).join('');
+
+      itemsGrid.innerHTML = outlineHtml + cardsHtml;
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      const searchInput = document.getElementById('globalSearchInput');
+      const sidebarTitle = document.getElementById('sidebarSectionTitle');
+      const flashcardsList = document.getElementById('flashcardsCategoryList');
+      const topicsList = document.getElementById('topicsCategoryList');
+
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === mode);
+      });
+
+      searchInput.value = '';
+
+      if (mode === 'flashcards') {
+        sidebarTitle.textContent = 'Categorías';
+        searchInput.placeholder = 'Buscar por título, tipo, verbo...';
+        flashcardsList.classList.remove('hidden');
+        topicsList.classList.add('hidden');
+        renderItems(currentFlashCategory);
+      } else {
+        sidebarTitle.textContent = 'Temario';
+        searchInput.placeholder = 'Buscar por tema o subtema...';
+        flashcardsList.classList.add('hidden');
+        topicsList.classList.remove('hidden');
+        renderTopicItems('', currentTopicKey);
+      }
+    }
+
     function searchTermInTags(tags, searchTerm) {
       if (!tags) return false;
       const searchLower = searchTerm.toLowerCase();
@@ -708,25 +1145,51 @@
              (tags.level && tags.level.toLowerCase().includes(searchLower));
     }
 
-    // Category button click handler
-    document.querySelectorAll('.category-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
+    document.querySelector('.sidebar').addEventListener('click', function(event) {
+      const modeButton = event.target.closest('.mode-btn');
+      if (modeButton) {
+        setMode(modeButton.dataset.mode);
+        return;
+      }
 
-        // Limpiar búsqueda cuando se cambia de categoría
-        const searchInput = document.getElementById('globalSearchInput');
-        searchInput.value = '';
+      const categoryButton = event.target.closest('#flashcardsCategoryList .category-btn');
+      if (categoryButton && currentMode === 'flashcards') {
+        document.querySelectorAll('#flashcardsCategoryList .category-btn').forEach(btn => btn.classList.remove('active'));
+        categoryButton.classList.add('active');
+        currentFlashCategory = categoryButton.dataset.category;
+        document.getElementById('globalSearchInput').value = '';
+        renderItems(currentFlashCategory);
+        return;
+      }
 
-        const category = this.dataset.category;
-        renderItems(category);
-      });
+      const topicButton = event.target.closest('#topicsCategoryList .category-btn');
+      if (topicButton && currentMode === 'temario') {
+        document.querySelectorAll('#topicsCategoryList .category-btn').forEach(btn => btn.classList.remove('active'));
+        topicButton.classList.add('active');
+        currentTopicKey = topicButton.dataset.topic;
+        document.getElementById('globalSearchInput').value = '';
+        if (currentTopicKey === 'all') {
+          renderTopicItems('', currentTopicKey);
+        } else {
+          openEmbeddedTopicByKey(currentTopicKey);
+        }
+        return;
+      }
+
+      const topicCard = event.target.closest('[data-topic-open]');
+      if (topicCard && currentMode === 'temario') {
+        event.preventDefault();
+        openEmbeddedTopicByKey(topicCard.dataset.topicOpen);
+      }
     });
 
     // Global search handler
     document.getElementById('globalSearchInput').addEventListener('input', function() {
-      const activeCategory = document.querySelector('.category-btn.active').dataset.category;
-      renderItems(activeCategory, this.value);
+      if (currentMode === 'flashcards') {
+        renderItems(currentFlashCategory, this.value);
+      } else {
+        renderTopicItems(this.value, 'all');
+      }
     });
 
     // Clear search button
@@ -735,12 +1198,19 @@
       searchInput.value = '';
       searchInput.focus();
       
-      const activeCategory = document.querySelector('.category-btn.active').dataset.category;
-      renderItems(activeCategory);
+      if (currentMode === 'flashcards') {
+        renderItems(currentFlashCategory);
+      } else {
+        if (currentTopicView === 'detail' && currentTopicKey !== 'all') {
+          openEmbeddedTopicByKey(currentTopicKey);
+        } else {
+          renderTopicItems('', currentTopicKey);
+        }
+      }
     });
 
-    // Initial render
-    renderItems('verbos');
+    renderTopicSidebarButtons();
+    setMode('flashcards');
   </script>
 </body>
 </html>

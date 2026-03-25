@@ -224,3 +224,119 @@ aside.card table {
 .card table tbody tr td .phon {
   font-size: 0.85rem;
 }
+
+.topic-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.topic-hero {
+  border: 1px solid rgba(122, 162, 255, 0.25);
+  border-radius: 16px;
+  padding: 18px;
+  background: linear-gradient(135deg, rgba(122, 162, 255, 0.12), rgba(17, 26, 46, 0.4));
+  margin-bottom: 14px;
+}
+
+.topic-hero h2 {
+  margin: 0 0 6px;
+  font-size: 24px;
+}
+
+.topic-hero p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.topic-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.topic-block {
+  background: linear-gradient(180deg, rgba(17, 26, 46, 0.92), rgba(15, 23, 48, 0.9));
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.topic-block h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--accent2);
+}
+
+.topic-block p,
+.topic-block li {
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.callout {
+  margin-top: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(155, 231, 255, 0.4);
+  background: rgba(155, 231, 255, 0.12);
+  padding: 10px 12px;
+}
+
+.callout strong {
+  color: var(--accent2);
+}
+
+.callout.cheat {
+  border-color: rgba(122, 162, 255, 0.42);
+  background: rgba(122, 162, 255, 0.14);
+}
+
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.table-wrap {
+  margin-top: 10px;
+  border: 1px solid rgba(122, 162, 255, 0.22);
+  border-radius: 12px;
+  overflow-x: auto;
+  background: rgba(17, 26, 46, 0.45);
+}
+
+.summary-table th,
+.summary-table td {
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.summary-table th {
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.topic-nav {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.topic-nav .btn {
+  min-width: 140px;
+}
+
+@media (max-width: 720px) {
+  .topic-hero h2 {
+    font-size: 20px;
+  }
+
+  .topic-nav .btn {
+    flex: 1;
+    min-width: 0;
+  }
+}

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Temario completo A1</title>
+  <link rel="stylesheet" href="../public/stylesheets/style.css" />
+  <style>
+    body { padding: 14px; }
+    .md-shell {
+      background: linear-gradient(180deg, rgba(17, 26, 46, 0.94), rgba(15, 23, 48, 0.9));
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .md-shell h1 { margin: 0 0 10px; font-size: 28px; }
+    .md-shell h2 {
+      margin: 20px 0 10px;
+      color: var(--accent2);
+      border-bottom: 1px solid rgba(122, 162, 255, 0.25);
+      padding-bottom: 6px;
+      scroll-margin-top: 10px;
+    }
+    .md-shell h3 { margin: 16px 0 8px; color: var(--accent); }
+    .md-shell p { margin: 10px 0; line-height: 1.5; }
+    .md-shell ul { margin: 8px 0 10px 18px; }
+    .md-shell li { margin: 4px 0; }
+    .md-callout {
+      margin: 10px 0;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(155, 231, 255, 0.45);
+      background: rgba(155, 231, 255, 0.12);
+    }
+    .md-callout.cheat {
+      border-color: rgba(122, 162, 255, 0.45);
+      background: rgba(122, 162, 255, 0.14);
+    }
+    .md-callout.contrast {
+      border-color: rgba(255, 180, 50, 0.45);
+      background: rgba(255, 180, 50, 0.14);
+    }
+    .md-loading {
+      color: var(--muted);
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 14px;
+    }
+    .md-error {
+      border: 1px solid rgba(255, 120, 120, 0.45);
+      background: rgba(255, 120, 120, 0.1);
+      color: #ffd9d9;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="md-shell">
+    <div class="md-loading" id="loadingState">Cargando contenido completo de gramatica_A1.md...</div>
+    <article id="mdContent" style="display:none;"></article>
+    <div id="errorState" class="md-error" style="display:none;"></div>
+  </div>
+
+  <script>
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function renderInline(text) {
+      const escaped = escapeHtml(text);
+      return escaped
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>');
+    }
+
+    function slugify(text) {
+      return text
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .replace(/-+/g, '-');
+    }
+
+    function splitRow(line) {
+      return line
+        .trim()
+        .replace(/^\|/, '')
+        .replace(/\|$/, '')
+        .split('|')
+        .map(cell => cell.trim());
+    }
+
+    function parseMarkdown(mdText) {
+      const lines = mdText.split(/\r?\n/);
+      const out = [];
+      let i = 0;
+
+      while (i < lines.length) {
+        const line = lines[i];
+
+        if (!line.trim()) {
+          i += 1;
+          continue;
+        }
+
+        const heading = line.match(/^(#{1,3})\s+(.+)$/);
+        if (heading) {
+          const level = heading[1].length;
+          const text = heading[2].trim();
+          const id = slugify(text);
+          out.push(`<h${level} id="${id}">${renderInline(text)}</h${level}>`);
+          i += 1;
+          continue;
+        }
+
+        if (/^>\s*/.test(line)) {
+          const block = [];
+          while (i < lines.length && /^>\s*/.test(lines[i])) {
+            block.push(lines[i].replace(/^>\s?/, ''));
+            i += 1;
+          }
+          const label = block[0].replace(/\*\*/g, '').trim().toLowerCase();
+          const calloutClass = label.includes('cheat') ? 'cheat' : label.includes('contrast') ? 'contrast' : '';
+          const body = block.map(item => `<div>${renderInline(item)}</div>`).join('');
+          out.push(`<div class="md-callout ${calloutClass}">${body}</div>`);
+          continue;
+        }
+
+        if (/^\|/.test(line) && i + 1 < lines.length && /^\|\s*[-:]/.test(lines[i + 1])) {
+          const headers = splitRow(line);
+          i += 2;
+          const rows = [];
+          while (i < lines.length && /^\|/.test(lines[i])) {
+            rows.push(splitRow(lines[i]));
+            i += 1;
+          }
+
+          let tableHtml = '<div class="table-wrap"><table class="summary-table"><thead><tr>';
+          tableHtml += headers.map(cell => `<th>${renderInline(cell)}</th>`).join('');
+          tableHtml += '</tr></thead><tbody>';
+          tableHtml += rows.map(row => `<tr>${row.map(cell => `<td>${renderInline(cell)}</td>`).join('')}</tr>`).join('');
+          tableHtml += '</tbody></table></div>';
+          out.push(tableHtml);
+          continue;
+        }
+
+        if (/^-\s+/.test(line)) {
+          const items = [];
+          while (i < lines.length && /^-\s+/.test(lines[i])) {
+            items.push(lines[i].replace(/^-\s+/, '').trim());
+            i += 1;
+          }
+          out.push(`<ul>${items.map(item => `<li>${renderInline(item)}</li>`).join('')}</ul>`);
+          continue;
+        }
+
+        const paragraphLines = [];
+        while (
+          i < lines.length &&
+          lines[i].trim() &&
+          !/^(#{1,3})\s+/.test(lines[i]) &&
+          !/^>\s*/.test(lines[i]) &&
+          !/^\|/.test(lines[i]) &&
+          !/^-\s+/.test(lines[i])
+        ) {
+          paragraphLines.push(lines[i].trim());
+          i += 1;
+        }
+        out.push(`<p>${renderInline(paragraphLines.join(' '))}</p>`);
+      }
+
+      return out.join('\n');
+    }
+
+    function scrollToHashIfPresent() {
+      if (!window.location.hash) {
+        return;
+      }
+
+      const id = window.location.hash.slice(1);
+      const section = document.getElementById(id);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    async function loadMarkdown() {
+      const loading = document.getElementById('loadingState');
+      const content = document.getElementById('mdContent');
+      const error = document.getElementById('errorState');
+
+      try {
+        const response = await fetch('../gramatica_A1.md');
+        if (!response.ok) {
+          throw new Error('No se pudo leer gramatica_A1.md');
+        }
+
+        const markdownText = await response.text();
+        content.innerHTML = parseMarkdown(markdownText);
+        loading.style.display = 'none';
+        content.style.display = 'block';
+        scrollToHashIfPresent();
+      } catch (err) {
+        loading.style.display = 'none';
+        error.style.display = 'block';
+        error.innerHTML = `Error cargando el temario completo: ${escapeHtml(err.message)}. Abre <a href="../gramatica_A1.md" target="_blank" rel="noopener noreferrer">gramatica_A1.md</a>.`;
+      }
+    }
+
+    window.addEventListener('hashchange', scrollToHashIfPresent);
+    loadMarkdown();
+  </script>
+</body>
+</html>
