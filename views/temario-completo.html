@@ -193,6 +193,27 @@
       }
     }
 
+    function getFallbackTopicPageByHash(hash) {
+      const routes = {
+        '1-categorias-gramaticales': './tema01-categorias.html',
+        '2-verbos-basicos-esenciales': './tema02-verbos-basicos.html',
+        '3-present-simple': './tema03-present-simple.html',
+        '4-present-continuous': './tema04-present-continuous.html',
+        '5-past-simple': './tema05-past-simple.html',
+        '6-past-continuous': './tema06-past-continuous.html',
+        '7-there-is-there-are': './tema07-there-is-there-are.html',
+        '8-verbos-modales-basicos': './tema08-modales-basicos.html',
+        '9-imperativos': './tema09-imperativos.html',
+        '10-gustos-y-preferencias-con-ing': './tema10-gustos-ing.html',
+        'anexo-1-future-simple': './tema11-future-simple.html',
+        'anexo-2-future-continuous': './tema12-future-continuous.html',
+        'anexo-3-fonetica-del-ingles': './tema13-fonetica-ingles.html',
+        'anexo-4-resumen-de-tiempos-verbales': './tema14-resumen-tiempos.html'
+      };
+
+      return routes[hash] || null;
+    }
+
     async function loadMarkdown() {
       const loading = document.getElementById('loadingState');
       const content = document.getElementById('mdContent');
@@ -210,9 +231,16 @@
         content.style.display = 'block';
         scrollToHashIfPresent();
       } catch (err) {
+        const hash = window.location.hash ? window.location.hash.slice(1) : '';
+        const fallbackPage = getFallbackTopicPageByHash(hash);
+        if (fallbackPage) {
+          window.location.replace(fallbackPage);
+          return;
+        }
+
         loading.style.display = 'none';
         error.style.display = 'block';
-        error.innerHTML = `Error cargando el temario completo: ${escapeHtml(err.message)}. Abre <a href="../gramatica_A1.md" target="_blank" rel="noopener noreferrer">gramatica_A1.md</a>.`;
+        error.innerHTML = `Error cargando el temario completo: ${escapeHtml(err.message)}. Si abriste con file://, usa un servidor local (por ejemplo <code>python -m http.server 5500</code>) o abre <a href="../gramatica_A1.md" target="_blank" rel="noopener noreferrer">gramatica_A1.md</a>.`;
       }
     }
 

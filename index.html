@@ -900,7 +900,7 @@
 
     function renderTags(tags) {
       if (!tags) return '';
-        name: 'Categorías gramaticales',
+      let tagsHtml = '';
       
       if (tags.type) tagsHtml += `<span class="tag tag-type">${tags.type}</span>`;
       if (tags.verb) tagsHtml += `<span class="tag tag-verb">${tags.verb}</span>`;
@@ -910,7 +910,7 @@
       
       return tagsHtml;
     }
-        name: 'Verbos básicos esenciales',
+
     function renderItems(categoryKey, searchTerm = '') {
       const itemsGrid = document.getElementById('itemsGrid');
       const titleElement = document.getElementById('categoryTitle');
@@ -918,7 +918,6 @@
 
       if (categoryKey === 'verbos' && searchTerm.trim() === '') {
         titleElement.textContent = 'Verbos y formas verbales';
-        name: 'Verbos modales básicos',
         itemsGrid.innerHTML = `
           <div class="embedded-view">
             <iframe src="./views/cat01.html" title="Categoria Verbos y formas verbales"></iframe>
@@ -928,7 +927,7 @@
       }
 
       let filteredItems = [];
-        name: 'Fonética del inglés',
+      let displayTitle = '';
 
       if (searchTerm.trim() !== '') {
         // Búsqueda global en todas las categorías
@@ -1017,7 +1016,7 @@
 
       itemsGrid.innerHTML = `
         <div class="embedded-topic-toolbar">
-          <strong>${topic.order}: ${topic.name}</strong>
+          <strong>Vista del tema</strong>
           <div class="embedded-topic-actions">
             <button class="embedded-topic-btn" id="backToTemarioListBtn">Volver al listado</button>
             <a class="embedded-topic-btn" href="${topic.url}" target="_blank" rel="noopener noreferrer">Abrir en pestaña nueva</a>
